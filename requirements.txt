@@ -1,0 +1,2 @@
+vanna
+streamlit
