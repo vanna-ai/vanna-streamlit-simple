@@ -15,6 +15,7 @@ my_question = st.session_state.get("my_question", default=None)
 if my_question is None:
     my_question = st.text_input(
         "Ask me a question about your data",
+        key="my_question",
     )
 else:
     st.text(my_question)
