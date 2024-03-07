@@ -3,10 +3,19 @@ import streamlit as st
 
 # ======= BEGIN VANNA SETUP =======
 
-import vanna as vn
-vn.set_api_key(YOUR_API_KEY)
-vn.set_model(YOUR_MODEL)
-vn.connect_to...(YOUR_DATABASE_CREDENTIALS)
+from vanna.remote import VannaDefault
+
+vanna_model_name=st.secrets.vanna.vanna_model_name
+vanna_api_key = st.secrets.vanna.vanna_api_key
+vn = VannaDefault(model=vanna_model_name, api_key=vanna_api_key)
+
+# vn.connect_to...(YOUR_DATABASE_CREDENTIALS)
+# example using suprabase
+supra_host=st.secrets.supra.supra_host
+supra_user=st.secrets.supra.supra_user
+supra_password=st.secrets.supra.supra_password
+
+vn.connect_to_postgres(host=supra_host, dbname='postgres', user=supra_user, password=supra_password, port=5432)
 
 # ======= END VANNA SETUP =======
 
@@ -27,8 +36,6 @@ else:
     df = vn.run_sql(sql)    
         
     st.dataframe(df, use_container_width=True)
-
-    plotly_fig = vn.generate_plotly(df)
 
     code = vn.generate_plotly_code(question=my_question, sql=sql, df=df)
 
